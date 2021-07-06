@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- POKRENI ROSARIU -->
+  <node pkg="rosaria" type="RosAria" name="Aria_pioneer">
+    <remap from="Aria_pioneer/pose" to="odom"/>
+  </node>
+
+<!-- POKRENI LIDAR -->
+  <node pkg="urg_node" type="urg_node" name="laser">
+    <rosparam>
+      ip_address: 192.168.0.10
+    </rosparam>
+  </node>
+
+<!-- TRANSFORMACIJA TF-A LIDAR-A -->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_laser_broadcaster" args="0.16492 0 0 0 0 0 base_footprint laser 100" />
+
+<!-- POKRENI IMU -->
+  <include file="$(find imu_bno055)/launch/imu.launch" />
+
+<!-- POKRENI KALMAN FILTER -->
+  <include file="$(find pioneer_robot)/src/ekf.launch" />
+
+<!-- UCITAJ MAPU -->
+  <arg name="map_file" default="$(find pioneer_robot)/maps/CRTA.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+<!-- POKRENI LOKALIZACIJA -->
+  <include file="$(find pioneer_robot)/src/amcl.launch" />
+
+<!-- POKRENI NAVIGACIJU -->
+ <include file="$(find pioneer_robot)/src/move_base.launch" />
+
+<!-- POKRENI RVIZ -->
+  <node pkg="rviz" type="rviz" name="rviz">
+  </node>
+
+</launch>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+
+<!-- rosaria -->
+<include file="$(find pioneer_robot)/src/rosaria_pioneer.launch" />
+
+
+<!-- HOKUYO LASER -->
+ <node pkg="urg_node" type="urg_node" name="laser">
+    <rosparam>
+      ip_address: 192.168.0.10
+    </rosparam>
+  </node>
+
+<!-- BNO055 IMU -->
+<include file="$(find imu_bno055)/launch/imu.launch" />
+
+<!-- TF odom -> base-link -->
+<!--include file="$(find pioneer_robot)/src/imu_u_frame.launch" /-->
+
+
+<!-- TF base-link -> laser -->
+<include file="$(find pioneer_robot)/src/transformacije.launch" />
+
+
+<!-- EKF -->
+<include file="$(find pioneer_robot)/src/ekf.launch" />
+
+
+<!-- gmapping -->
+<include file="$(find pioneer_robot)/src/gmapping.launch" />
+
+<!-- move-base -->
+<!--include file="$(find pioneer_robot)/src/move_base.launch" /-->
+
+</launch>

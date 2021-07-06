@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+  <node pkg="rosaria" type="RosAria" name="Aria_pioneer">
+	<remap from="Aria_pioneer/pose" to="odom"/> 
+	<remap from="Aria_pioneer/cmd_vel" to="cmd_vel"/>
+  </node>
+
+<!-- POKRENI IMU -->
+  <include file="$(find imu_bno055)/launch/imu.launch" />
+
+<!-- POKRENI KALMAN FILTER -->
+  <include file="$(find pioneer_robot)/src/ekf.launch" />
+
+</launch>

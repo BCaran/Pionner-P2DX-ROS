@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+
+  <node pkg="message_to_tf" type="message_to_tf" name="msg_to_tf">
+    <rosparam>
+      imu_topic: /imu/data
+      frame_id:  g_frame_id
+      stabilized_frame_id: odom
+      child_frame_id: base_link
+    </rosparam>
+  </node>
+</launch>
